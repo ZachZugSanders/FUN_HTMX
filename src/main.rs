@@ -57,10 +57,12 @@ async fn main() -> std::io::Result<()> {
     let counter = Data::new(AppStateCounter {
         counter: Mutex::new(0)
     });
+    log::info!("Server started at 0.0.0.0:8000");
     HttpServer::new( move || {
         App::new()
         .app_data(tera.clone())
         .app_data(counter.clone())
+        .service(actix_files::Files::new("/static", "./static").show_files_listing())
         .service(home)
         .service(increment)
         .service(decrement)

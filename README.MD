@@ -1,25 +1,31 @@
 # Lunch and Learn HTMX
 
-What is HTMX?
+![alt text](image-1.png)
 
-- It is a JS library specifically to reduce the amount of JS code you have to write.
-- Completes HTML to enable a web application to use Hypermedia as the Engine of Application State (HATEOAS), a concept from REST.
-  - This is done by letting the client observe events emmited by the page through things such as AJAX or CSS transitions to then serve out hypermedia.
+## What is HTMX?
 
-Why did I choose to learn this library?
->IDK why did you use React? Because it looked like something cool to use!
+ANOTHER JS library! This one enables web applications to use Hypermedia as the Engine of Application State (HATEOAS), a not so new concept from REST application architecture.
 
-- I wanted to learn more about web application architecture
-- Javascipt is easy to write poorly and I felt like everything I wrote in the language was just wrong. (it probably was.)
-- It enabled me to write a decoupled frontend that utilizes most of the logic on the backend and serve the frontend out as HTML.
-- I found it on Youtube and the people that pushed it did a good enough job convicing me it was worth checking out.
-- The usecase for the application I wanted to write fits  well into this library's primary purpose.
+## Why did I choose to learn this library?
 
-How can HTMX make your application more RESTful? What does RESTful mean anymore?
+- I wanted to learn more about web application architecture.
+- Its easy to write bad Javascript code and I am confident in my ability to write bad Javascript code.
+- It enabled me to write most of the UI logic in python.
+- My YouTube algorithm recommended videos about it.
+- The use case for the application I wanted to write fits  well into this library's primary purpose.
 
-- Roy Fielding helped create Representational State Transfer (REST) and HTTP... below outlines Richardson Maturity Model (RMM) which is a framework for evaluating the maturity of web services in terms of their adherence to RESTful principles:
+## What does a RESTful application mean?
 
-![alt text](image.png)
+Representational State Transfer (REST):
+
+1. Uniform Interface
+2. Client-Server Separation
+3. Resource-based
+4. Resource Representation
+5. Self-descriptive Messages
+6. HATEOS
+
+Below outlines Richardson Maturity Model (RMM) which is a framework for evaluating the maturity of web services in terms of their adherence to RESTful principles:
 
 - The first level of REST architecture, also known as "The Swamp of POX (Plain Old XML)", involves using HTTP as a transport system for remote interactions, but without leveraging any of the system's built-in capabilities such as methods, status codes, or caching. It's essentially using HTTP as a tunnel for your own remote interaction design.
 
@@ -29,7 +35,13 @@ How can HTMX make your application more RESTful? What does RESTful mean anymore?
 
 - The fourth level of REST architecture, known as "Hypermedia Controls", involves including hypermedia within the response to guide the client to other resources. This level introduces the concept of HATEOAS (Hypermedia as the Engine of Application State), which means that the client interacts with the server entirely through hypermedia provided dynamically by application servers. This makes the API self-descriptive and allows the client to navigate the API dynamically, as opposed to hard-coding paths to resources.
 
---- 
+![alt text](image.png)
+
+As RMM is defined we can look at most web applications written these days and say that they are at level 2 with no intention of even trying to achieve the third level. Why is that?
+
+Well, the emergence of JSON to replace SOAP/XML-RPC and all the flavors of the JS framework rainbow have made it really easy to couple the backend and frontend to make thick client web apps, because who doesn't love implementing things twice!
+
+---
 
 Lets run this application!
 

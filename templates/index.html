@@ -11,15 +11,46 @@
     </script>
     {# Adding a link to our tailwind.css #}
     <link rel="stylesheet" href="/static/tailwind.css"/>
+    <style>
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            width: 50%;
+        }
+    </style>
 
 </head>
 
 <body>
+    <nav>
+        <ul class="flex justify-center">
+            <li class="mr-6">
+                <a href="/">Home</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        <p id="counter">Counter: {{ counter_value }}</p>
 
-    <p id="counter">Counter: {{ counter_value }}</p>
+        <button 
+            hx-get="/increment" 
+            hx-target="#counter">
+            increment
+        </button>
 
-    <button hx-get="/increment" hx-target="#counter">increment</button>
+        <button 
+            hx-get="/decrement" 
+            hx-target="#counter">
+            decrement
+        </button>
 
-    <button hx-get="/decrement" hx-target="#counter">decrement</button>
-
+        <button 
+            hx-get="/reset" 
+            hx-target="#counter">
+            reset
+        </button>
+    </div>
+    <div class="container">
+        <p>Click the buttons to increment and decrement the counter.</p>
+    </div>
 </body>

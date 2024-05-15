@@ -1,18 +1,17 @@
 use std::sync::Mutex;
 
-use actix_web::{get, web::{Data, Json}, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, web::Data, App, HttpResponse, HttpServer, Responder};
 
 use tera::{Tera, Context};
+
+use std::fs::File;
+use std::io::Read;
+use serde_json;
 
 struct AppStateCounter {
 
     counter: Mutex<i32>
 
-}
-
-struct AppRatings {
-    restaurant_name: String,
-    rating: f32,
 }
 
 #[get("/")]
@@ -54,29 +53,35 @@ async fn decrement(tera: Data<Tera>, data: Data<AppStateCounter>) -> impl Respon
 }
 
 
-// #[get("/reset")]
-// async fn reset(tera: Data<Tera>, data: Data<AppStateCounter>) -> impl Responder {
-//     let mut counter = data.counter.lock().unwrap();
-//     *counter = 0;
+#[get("/reset")]
+async fn reset(tera: Data<Tera>, data: Data<AppStateCounter>) -> impl Responder {
+    let mut counter = data.counter.lock().unwrap();
+    *counter = 0;
 
-//     log::info!("Reset Counter Value: {}", *counter);
-//     let mut reset_context = Context::new();
-//     reset_context.insert("counter_value", &*counter);
-//     HttpResponse::Ok().body(tera.render("components/counter.html", &reset_context).unwrap())
-// }
+    log::info!("Reset Counter Value: {}", *counter);
+    let mut reset_context = Context::new();
+    reset_context.insert("counter_value", &*counter);
+    HttpResponse::Ok().body(tera.render("components/counter.html", &reset_context).unwrap())
+}
 
-async fn ratings(tera: Data<Tera>, data: Data<AppRatings>) {
-    // Create a new Tera instance and add a template from a string
-    let mut tera = Tera::new("templates/**/*").unwrap();
-    tera.add_raw_template("hello", "Hello, {{ name }}!").unwrap();
 
-    // Prepare the context with some data
-    let mut context = tera::Context::new();
-    context.insert("name", "World");
+#[get("/ratings")]
+async fn ratings(tera: Data<Tera>) -> impl Responder {
+    let current_dir = std::env::current_dir().unwrap();
+    let file_path = current_dir.join("data/someStuff.json");
+    let mut file = File::open(file_path).unwrap();
+    let mut contents = String::new();
+    file.read_to_string(&mut contents).unwrap();
 
-    // Render the template with the given context
-    let rendered = tera.render("hello", &context).unwrap();
-    assert_eq!(rendered, "Hello, World!");
+    let json_data: serde_json::Value = serde_json::from_str(&contents).unwrap();
+    let restaurant_ratings = json_data.as_object().unwrap();
+
+    let mut ratings_context = Context::new();
+    for (key, value) in restaurant_ratings.iter() {
+        ratings_context.insert(key, value);
+    }
+
+    HttpResponse::Ok().body(tera.render("components/ratings.html", &ratings_context).unwrap())
 }
 
 #[actix::main]
@@ -88,7 +93,7 @@ async fn main() -> std::io::Result<()> {
     let counter = Data::new(AppStateCounter {
         counter: Mutex::new(0)
     });
-    log::info!("Server started at 0.0.0.0:8000");
+    log::info!("Server started at http://0.0.0.0:8000");
     HttpServer::new( move || {
         App::new()
         .app_data(tera.clone())
@@ -97,8 +102,8 @@ async fn main() -> std::io::Result<()> {
         .service(home)
         .service(increment)
         .service(decrement)
-        // .service(reset)
-        // .service(ratings)
+        .service(reset)
+        .service(ratings)
     })
     .bind(("0.0.0.0", 8000))?
     .run()

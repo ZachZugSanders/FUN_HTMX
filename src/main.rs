@@ -60,6 +60,14 @@ async fn reset(tera: Data<Tera>, data: Data<AppStateCounter>) -> impl Responder 
     HttpResponse::Ok().body(tera.render("components/counter.html", &reset_context).unwrap())
 }
 
+#[get("/increment-template")]
+async fn increment_template(tera: Data<Tera>, data: Data<AppStateCounter>) -> impl Responder {
+    let mut counter = data.counter.lock().unwrap();
+    *counter = 0;
+    let mut counter_context = Context::new();
+    counter_context.insert("counter_value", &*counter);
+    HttpResponse::Ok().body(tera.render("components/increment.html", &counter_context).unwrap())
+}
 
 #[get("/presentation-start")]
 async fn start_presentation(tera: Data<Tera>) -> impl Responder {
@@ -75,6 +83,12 @@ async fn second_meme(tera: Data<Tera>) -> impl Responder {
 #[get("more-text")]
 async fn more_text(tera: Data<Tera>) -> impl Responder {
     HttpResponse::Ok().body(tera.render("components/more_text.html", &Context::new()).unwrap())
+}
+
+
+#[get("/example")]
+async fn an_example(tera: Data<Tera>) -> impl Responder {
+    HttpResponse::Ok().body(tera.render("components/example.html", &Context::new()).unwrap())
 }
 
 
@@ -100,6 +114,8 @@ async fn main() -> std::io::Result<()> {
         .service(start_presentation)
         .service(second_meme)
         .service(more_text)
+        .service(an_example)
+        .service(increment_template)
     })
     .bind(("0.0.0.0", 8000))?
     .run()

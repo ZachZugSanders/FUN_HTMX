@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-
+<html lang="en" class="dark">
 <head>
 
-    <title>FUN htmx</title>
+    <title>HTMX Lunch and Learn</title>
 
     <script 
         src="https://unpkg.com/htmx.org@1.9.10" 
@@ -20,47 +20,17 @@
     </style>
 
 </head>
-
 <body>
-    <nav>
-        <ul class="flex justify-center">
-            <li class="mr-6">
-                <a href="/">Home</a>
-            </li>
-        </ul>
-    </nav>
-    <div class="container">
-        <p id="counter">Counter: {{ counter_value }}</p>
-
-        <button 
-            hx-get="/increment" 
-            hx-target="#counter">
-            increment
+    <div id="presentation" class="container">
+        <img src="/static/htmx-banner.png" alt="banner">
+        <p style="font-size: 200%;"><br> ANOTHER JS library!</p>
+        <button
+            hx-target="#presentation" 
+            hx-get="/presentation-start"
+            hx-swap="innerHTML"
+            style="background-color: rgb(67, 189, 67); border-radius: 10px; color: white; padding: 4px;"> 
+            Load Presentation
         </button>
-
-        <button 
-            hx-get="/decrement" 
-            hx-target="#counter">
-            decrement
-        </button>
-
-        <button 
-            hx-get="/reset" 
-            hx-target="#counter">
-            reset
-        </button>
-    </div>
-    <div class="container">
-        <p>Click the buttons to increment and decrement the counter.</p>
-    </div>
-    <div
-
-        hx-target="#ratings"
-        hx-boost="true" 
-        hx-get="/ratings"> 
-        Load Ratings
-    </div>
-
-    <div id="ratings" class="container">
     </div>
 </body>
+</html>

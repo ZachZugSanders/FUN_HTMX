@@ -1,0 +1,21 @@
+<div class="container">
+    <p id="counter"> Counter: {{ counter_value }} </p>
+    <button 
+        hx-get="/increment" 
+        hx-target="#counter">
+        increment
+    </button>
+    <button 
+        hx-get="/decrement" 
+        hx-target="#counter">
+        decrement
+    </button>
+    <button 
+        hx-get="/reset" 
+        hx-target="#counter">
+        reset
+    </button>
+</div>
+<div class="container">
+    <p>Click the buttons to increment and decrement the counter.</p>
+</div>

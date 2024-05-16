@@ -1,0 +1,49 @@
+<div>
+    <h1>Representational State Transfer (REST)</h1>
+    <ol>
+        <li>- Uniform Interface</li>
+        <li>- Client-Server Separation</li>
+        <li>- Resource-based</li>
+        <li>- Resource Representation</li>
+        <li>- Self-descriptive Messages</li>
+        <li>- HATEOS</li>
+    </ol>
+    <img src="/static/RMM.png" alt="maturity model img">
+    <hr>
+    <h2>Richardson Maturity Model (RMM)</h2>
+    <p>A framework for evaluating the maturity of web services in terms of their adherence to RESTful principles:</p>
+    <ol>
+        <li>
+            <br>
+            <h3>Level 1: The Swamp of POX (Plain Old XML)</h3>
+            <hr>
+            <p>Involves using HTTP as a transport system for remote interactions, but without leveraging any of the system's built-in capabilities such as methods, status codes, or caching. It's essentially using HTTP as a tunnel for your own remote interaction design.</p>
+        </li>
+        <li>
+            <br>
+            <h3>Level 2: Resources</h3>
+            <hr>
+            <p>Involves breaking down the service into distinct resources. Each resource is identified by a specific URI (Uniform Resource Identifier). This level introduces the concept of addressing and interacting with resources individually, which is a key aspect of the REST architectural style.</p>
+        </li>
+        <li>
+            <br>
+            <h3>Level 3: HTTP Verbs</h3>
+            <hr>
+            <p>Involves using the standard HTTP methods like GET, POST, PUT, DELETE, etc. in a way that's consistent with their defined semantics. This level leverages the built-in capabilities of HTTP to perform CRUD (Create, Read, Update, Delete) operations, making the API more intuitive and aligned with the protocol's design.</p>
+        </li>
+        <li>
+            <br>
+            <h3>Level 4: Hypermedia Controls</h3>
+            <hr>
+            <p>Involves including hypermedia within the response to guide the client to other resources. This level introduces the concept of HATEOAS (Hypermedia as the Engine of Application State), which means that the client interacts with the server entirely through hypermedia provided dynamically by application servers. This makes the API self-descriptive and allows the client to navigate the API dynamically, as opposed to hard-coding paths to resources.</p>
+        </li>
+    </ol>
+</div>
+<div>
+    <hr>
+    <br>
+    <p>As RMM is defined we can look at most web applications written these days and say that they are at level 2 with no intention of even trying to achieve the third level. Why is that?</p>
+    <br>
+    <p>Well, the emergence of JSON to replace SOAP/XML-RPC and all the flavors of the JS framework rainbow have made it really easy to couple the backend and frontend to make thick client web apps, because who doesn't love implementing things twice!</p>
+</div>
+

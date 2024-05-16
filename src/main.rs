@@ -4,10 +4,6 @@ use actix_web::{get, web::Data, App, HttpResponse, HttpServer, Responder};
 
 use tera::{Tera, Context};
 
-use std::fs::File;
-use std::io::Read;
-use serde_json;
-
 struct AppStateCounter {
 
     counter: Mutex<i32>
@@ -65,24 +61,22 @@ async fn reset(tera: Data<Tera>, data: Data<AppStateCounter>) -> impl Responder 
 }
 
 
-#[get("/ratings")]
-async fn ratings(tera: Data<Tera>) -> impl Responder {
-    let current_dir = std::env::current_dir().unwrap();
-    let file_path = current_dir.join("data/someStuff.json");
-    let mut file = File::open(file_path).unwrap();
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).unwrap();
-
-    let json_data: serde_json::Value = serde_json::from_str(&contents).unwrap();
-    let restaurant_ratings = json_data.as_object().unwrap();
-
-    let mut ratings_context = Context::new();
-    for (key, value) in restaurant_ratings.iter() {
-        ratings_context.insert(key, value);
-    }
-
-    HttpResponse::Ok().body(tera.render("components/ratings.html", &ratings_context).unwrap())
+#[get("/presentation-start")]
+async fn start_presentation(tera: Data<Tera>) -> impl Responder {
+    HttpResponse::Ok().body(tera.render("components/pres.html", &Context::new()).unwrap())
 }
+
+#[get("/second-meme")]
+async fn second_meme(tera: Data<Tera>) -> impl Responder {
+    HttpResponse::Ok().body(tera.render("components/pres2.html", &Context::new()).unwrap())
+}
+
+
+#[get("more-text")]
+async fn more_text(tera: Data<Tera>) -> impl Responder {
+    HttpResponse::Ok().body(tera.render("components/more_text.html", &Context::new()).unwrap())
+}
+
 
 #[actix::main]
 async fn main() -> std::io::Result<()> {
@@ -103,7 +97,9 @@ async fn main() -> std::io::Result<()> {
         .service(increment)
         .service(decrement)
         .service(reset)
-        .service(ratings)
+        .service(start_presentation)
+        .service(second_meme)
+        .service(more_text)
     })
     .bind(("0.0.0.0", 8000))?
     .run()

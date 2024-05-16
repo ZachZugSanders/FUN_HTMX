@@ -1,7 +1,5 @@
 # Lunch and Learn HTMX
 
-![alt text](image-1.png)
-
 ## What is HTMX?
 
 ANOTHER JS library! This one enables web applications to use Hypermedia as the Engine of Application State (HATEOAS), a not so new concept from REST application architecture.
